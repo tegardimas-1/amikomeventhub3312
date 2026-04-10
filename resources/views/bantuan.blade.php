@@ -4,197 +4,172 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bantuan & FAQ - AmikomEventHub</title>
+    <title>Bantuan</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gradient-to-br from-slate-900 to-slate-800 min-h-screen">
+<body class="bg-white text-slate-900">
     <!-- Navigation Bar -->
-    <nav class="bg-slate-950 border-b-2 border-emerald-500 shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <h1 class="text-2xl font-bold text-emerald-400">AmikomEventHub</h1>
-                </div>
-                <div class="flex gap-2 flex-wrap justify-end">
-                    <a href="/" class="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition duration-300 text-sm font-medium">Home</a>
-                    <a href="/profil" class="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition duration-300 text-sm font-medium">Profil</a>
-                    <a href="/katalog" class="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition duration-300 text-sm font-medium">Katalog</a>
-                    <a href="/bantuan" class="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition duration-300 text-sm font-medium">Bantuan</a>
-                    <a href="/kontak" class="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition duration-300 text-sm font-medium">Kontak</a>
+                <h1 class="text-xl font-semibold text-slate-900">AmikomEventHub</h1>
+                <div class="flex gap-1">
+                    <a href="/" class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-md transition">Home</a>
+                    <a href="/profil" class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-md transition">Profil</a>
+                    <a href="/katalog" class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-md transition">Katalog</a>
+                    <a href="/bantuan" class="px-3 py-2 text-sm font-medium text-white bg-slate-900 rounded-md hover:bg-slate-800 transition">Bantuan</a>
+                    <a href="/kontak" class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-md transition">Kontak</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 py-16">
         <!-- Header -->
         <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Bantuan & FAQ</h1>
-            <p class="text-lg text-slate-300">Temukan jawaban atas pertanyaan-pertanyaan umum seputar AmikomEventHub</p>
-        </div>
-
-        <!-- Search Bar -->
-        <div class="mb-12">
-            <div class="relative">
-                <input type="text" placeholder="Cari pertanyaan..." class="w-full px-6 py-4 rounded-xl bg-slate-800 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 border border-slate-700">
-                <span class="absolute right-4 top-4 text-2xl">🔍</span>
-            </div>
+            <h1 class="text-4xl font-bold mb-3">Bantuan & FAQ</h1>
+            <p class="text-lg text-slate-600">Temukan jawaban atas pertanyaan umum seputar AmikomEventHub</p>
         </div>
 
         <!-- FAQs Sections -->
-        <div class="space-y-6">
+        <div class="space-y-8">
             <!-- Section 1: Umum -->
             <div>
-                <h2 class="text-2xl font-bold text-emerald-400 mb-4 flex items-center gap-2">
-                    <span class="text-3xl">❓</span> Pertanyaan Umum
-                </h2>
+                <h2 class="text-2xl font-bold mb-4">Pertanyaan Umum</h2>
                 
-                <!-- FAQ Item 1 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-emerald-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Apa itu AmikomEventHub?</h3>
-                        <span class="text-2xl text-emerald-400">+</span>
-                    </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>AmikomEventHub adalah platform yang dirancang khusus untuk mengelola, mempromosikan, dan memfasilitasi berbagai acara yang diadakan oleh AMIKOM Yogyakarta. Melalui platform ini, mahasiswa dan komunitas dapat dengan mudah mencari informasi event, mendaftar, dan berinteraksi dengan peserta lainnya.</p>
+                <div class="space-y-3">
+                    <!-- FAQ Item 1 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                            <h3 class="font-medium text-slate-900">Apa itu AmikomEventHub?</h3>
+                            <span class="text-slate-600">+</span>
+                        </button>
+                        <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-slate-600 text-sm">AmikomEventHub adalah platform untuk mengelola dan mempromosikan berbagai acara di AMIKOM Yogyakarta. Mahasiswa dapat mencari informasi event, mendaftar, dan berinteraksi dengan peserta lainnya.</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- FAQ Item 2 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-emerald-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Bagaimana cara mendaftar di AmikomEventHub?</h3>
-                        <span class="text-2xl text-emerald-400">+</span>
-                    </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>Untuk mendaftar, Anda perlu:</p>
-                        <ol class="list-decimal list-inside mt-3 space-y-2">
-                            <li>Kunjungi halaman login dan pilih opsi "Register"</li>
-                            <li>Isi data pribadi Anda yang akurat</li>
-                            <li>Verifikasi email Anda</li>
-                            <li>Akun Anda siap digunakan!</li>
-                        </ol>
+                    <!-- FAQ Item 2 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                            <h3 class="font-medium text-slate-900">Bagaimana cara mendaftar?</h3>
+                            <span class="text-slate-600">+</span>
+                        </button>
+                        <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-slate-600 text-sm">Kunjungi halaman login, pilih "Register", isi data pribadi Anda, verifikasi email, dan akun siap digunakan.</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- FAQ Item 3 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-emerald-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Apakah gratis untuk mendaftar event?</h3>
-                        <span class="text-2xl text-emerald-400">+</span>
-                    </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>Sebagian besar event yang kami selenggarakan adalah gratis untuk didaftar oleh mahasiswa AMIKOM. Namun, beberapa event khusus atau kompetisi mungkin memiliki biaya pendaftaran atau hadiah yang memerlukan kontribusi finansial. Informasi lengkap akan tertera di halaman event masing-masing.</p>
+                    <!-- FAQ Item 3 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                            <h3 class="font-medium text-slate-900">Apakah gratis mendaftar event?</h3>
+                            <span class="text-slate-600">+</span>
+                        </button>
+                        <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-slate-600 text-sm">Sebagian besar event gratis untuk mendaftar. Namun beberapa event khusus atau kompetisi mungkin memiliki biaya pendaftaran. Informasi lengkap tersedia di halaman event masing-masing.</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Section 2: Teknis -->
-            <div class="mt-10">
-                <h2 class="text-2xl font-bold text-blue-400 mb-4 flex items-center gap-2">
-                    <span class="text-3xl">⚙️</span> Pertanyaan Teknis
-                </h2>
-
-                <!-- FAQ Item 4 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-blue-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Brower apa yang perlu saya gunakan?</h3>
-                        <span class="text-2xl text-blue-400">+</span>
-                    </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>AmikomEventHub kompatibel dengan semua browser modern seperti Chrome, Firefox, Safari, dan Edge. Kami merekomendasikan menggunakan versi browser terbaru untuk pengalaman terbaik.</p>
+            <div>
+                <h2 class="text-2xl font-bold mb-4">Pertanyaan Teknis</h2>
+                
+                <div class="space-y-3">
+                    <!-- FAQ Item 4 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                            <h3 class="font-medium text-slate-900">Browser mana yang kompatibel?</h3>
+                            <span class="text-slate-600">+</span>
+                        </button>
+                        <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-slate-600 text-sm">Kompatibel dengan Chrome, Firefox, Safari, dan Edge. Gunakan versi browser terbaru untuk pengalaman terbaik.</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- FAQ Item 5 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-blue-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Bisakah saya akses dari smartphone?</h3>
-                        <span class="text-2xl text-blue-400">+</span>
-                    </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>Ya! AmikomEventHub dirancang dengan responsive design sehingga dapat diakses dengan sempurna dari smartphone, tablet, dan desktop. Pengalaman pengguna akan optimal di semua perangkat.</p>
+                    <!-- FAQ Item 5 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                            <h3 class="font-medium text-slate-900">Bisakah diakses dari smartphone?</h3>
+                            <span class="text-slate-600">+</span>
+                        </button>
+                        <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-slate-600 text-sm">Ya, dirancang dengan responsive design untuk smartphone, tablet, dan desktop dengan pengalaman optimal di semua perangkat.</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- FAQ Item 6 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-blue-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Apa yang harus saya lakukan jika lupa password?</h3>
-                        <span class="text-2xl text-blue-400">+</span>
-                    </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>Jika Anda lupa password, ikuti langkah berikut:</p>
-                        <ol class="list-decimal list-inside mt-3 space-y-2">
-                            <li>Klik tombol "Lupa Password" di halaman login</li>
-                            <li>Masukkan alamat email terdaftar Anda</li>
-                            <li>Cek email untuk link reset password</li>
-                            <li>Ikuti instruksi untuk membuat password baru</li>
-                        </ol>
+                    <!-- FAQ Item 6 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                            <h3 class="font-medium text-slate-900">Lupa password, apa yang harus dilakukan?</h3>
+                            <span class="text-slate-600">+</span>
+                        </button>
+                        <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-slate-600 text-sm">Klik "Lupa Password" di halaman login, masukkan email terdaftar, cek email untuk link reset, dan ikuti instruksi membuat password baru.</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Section 3: Event & Registrasi -->
-            <div class="mt-10">
-                <h2 class="text-2xl font-bold text-purple-400 mb-4 flex items-center gap-2">
-                    <span class="text-3xl">🎉</span> Event & Registrasi
-                </h2>
-
-                <!-- FAQ Item 7 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-purple-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Bagaimana cara mendaftar event?</h3>
-                        <span class="text-2xl text-purple-400">+</span>
-                    </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>Untuk mendaftar event, cukup kunjungi halaman katalog event, pilih event yang Anda minati, dan klik tombol "Daftar Sekarang". Anda akan diminta untuk mengisi data peserta dan mengkonfirmasi registrasi.</p>
+            <div>
+                <h2 class="text-2xl font-bold mb-4">Event & Registrasi</h2>
+                
+                <div class="space-y-3">
+                    <!-- FAQ Item 7 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                            <h3 class="font-medium text-slate-900">Bagaimana cara mendaftar event?</h3>
+                            <span class="text-slate-600">+</span>
+                        </button>
+                        <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-slate-600 text-sm">Kunjungi katalog event, pilih event yang diminati, klik tombol "Daftar", isi data peserta, dan konfirmasi registrasi.</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- FAQ Item 8 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-purple-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Bisakah saya membatalkan registrasi?</h3>
-                        <span class="text-2xl text-purple-400">+</span>
-                    </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>Ya, Anda dapat membatalkan registrasi hingga 3 hari sebelum event berlangsung. Masuk ke akun Anda, pergi ke "Event Saya", dan klik "Batal Registrasi". Untuk event berbayar, proses refund akan memerlukan 5-7 hari kerja.</p>
+                    <!-- FAQ Item 8 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                            <h3 class="font-medium text-slate-900">Bisakah dibatalkan registrasi?</h3>
+                            <span class="text-slate-600">+</span>
+                        </button>
+                        <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-slate-600 text-sm">Ya, hingga 3 hari sebelum event. Masuk ke akun, pergi ke "Event Saya", dan klik "Batal Registrasi". Refund memerlukan 5-7 hari kerja.</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- FAQ Item 9 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-purple-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Kapan saya akan menerima sertifikat?</h3>
-                        <span class="text-2xl text-purple-400">+</span>
-                    </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>Sertifikat akan dikirimkan melalui email dalam 5-7 hari kerja setelah event berakhir, dengan syarat Anda telah hadir minimal 80% dalam keseluruhan event.</p>
+                    <!-- FAQ Item 9 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                            <h3 class="font-medium text-slate-900">Kapan menerima sertifikat?</h3>
+                            <span class="text-slate-600">+</span>
+                        </button>
+                        <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-slate-600 text-sm">Dikirimkan via email dalam 5-7 hari kerja setelah event berakhir, dengan syarat hadir minimal 80%.</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Section 4: Dukungan -->
-            <div class="mt-10">
-                <h2 class="text-2xl font-bold text-pink-400 mb-4 flex items-center gap-2">
-                    <span class="text-3xl">📞</span> Dukungan Pelanggan
-                </h2>
-
-                <!-- FAQ Item 10 -->
-                <div class="bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-700 hover:border-pink-500 transition">
-                    <button class="w-full p-6 flex items-center justify-between hover:bg-slate-750 transition text-left">
-                        <h3 class="text-lg font-semibold text-white">Bagaimana cara menghubungi tim dukungan?</h3>
-                        <span class="text-2xl text-pink-400">+</span>
+            <div>
+                <h2 class="text-2xl font-bold mb-4">Dukungan Pelanggan</h2>
+                
+                <div class="border border-slate-200 rounded-lg overflow-hidden">
+                    <button class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                        <h3 class="font-medium text-slate-900">Bagaimana menghubungi tim dukungan?</h3>
+                        <span class="text-slate-600">+</span>
                     </button>
-                    <div class="hidden px-6 pb-6 text-slate-300 bg-slate-900 border-t border-slate-700">
-                        <p>Anda dapat menghubungi tim dukungan kami melalui:</p>
-                        <ul class="list-disc list-inside mt-3 space-y-2">
-                            <li>Email: support@amikomeventhub.com</li>
-                            <li>WhatsApp: +62 822 XXX XXXX</li>
-                            <li>Live Chat: Tersedia di halaman utama</li>
-                            <li>Jam layanan: Senin-Jumat 09:00-17:00 WITA</li>
+                    <div class="hidden px-4 pb-4 bg-slate-50 border-t border-slate-200">
+                        <p class="text-slate-600 text-sm mb-2">Hubungi kami melalui:</p>
+                        <ul class="text-slate-600 text-sm space-y-1">
+                            <li>• Email: support@amikomeventhub.com</li>
+                            <li>• WhatsApp: +62 822 XXX XXXX</li>
+                            <li>• Live Chat: Halaman utama</li>
+                            <li>• Jam layanan: Senin-Jumat 09:00-17:00 WITA</li>
                         </ul>
                     </div>
                 </div>
@@ -202,10 +177,10 @@
         </div>
 
         <!-- Contact CTA -->
-        <div class="mt-12 bg-gradient-to-r from-emerald-600 to-blue-600 rounded-2xl p-8 text-center">
-            <h3 class="text-2xl font-bold text-white mb-3">Masih ada pertanyaan?</h3>
-            <p class="text-emerald-50 mb-6">Jangan ragu untuk menghubungi tim dukungan kami</p>
-            <a href="/kontak" class="inline-block px-8 py-3 bg-white text-emerald-600 rounded-lg font-bold hover:bg-slate-50 transition">
+        <div class="mt-12 bg-slate-900 text-white rounded-lg p-8 text-center">
+            <h3 class="text-2xl font-bold mb-3">Masih ada pertanyaan?</h3>
+            <p class="text-slate-300 mb-6">Hubungi tim dukungan kami</p>
+            <a href="/kontak" class="inline-block px-8 py-2 bg-white text-slate-900 rounded-md font-medium hover:bg-slate-100 transition">
                 Hubungi Kami
             </a>
         </div>
@@ -213,15 +188,17 @@
 
     <!-- JavaScript untuk expand/collapse FAQ -->
     <script>
-        document.querySelectorAll('.bg-slate-800').forEach(item => {
+        document.querySelectorAll('.border').forEach(item => {
             const button = item.querySelector('button');
             const content = item.querySelector('div');
             
-            button.addEventListener('click', () => {
-                content.classList.toggle('hidden');
-                const icon = button.querySelector('span:last-child');
-                icon.textContent = content.classList.contains('hidden') ? '+' : '−';
-            });
+            if (button && content) {
+                button.addEventListener('click', () => {
+                    content.classList.toggle('hidden');
+                    const icon = button.querySelector('span:last-child');
+                    icon.textContent = content.classList.contains('hidden') ? '+' : '−';
+                });
+            }
         });
     </script>
 </body>
