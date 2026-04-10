@@ -37,7 +37,7 @@
                         <a href="/kontak" class="px-6 py-3 border border-white text-white font-medium rounded-md hover:bg-slate-800 transition">Hubungi Kami</a>
                     </div>
                 </div>
-                <div class="text-6xl text-center opacity-10">📅</div>
+                <div class="text-6xl text-center opacity-10"></div>
             </div>
         </div>
     </section>
