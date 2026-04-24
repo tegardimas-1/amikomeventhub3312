@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+    ////
     /**
      * Tampilkan daftar event
      */
