@@ -11,7 +11,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
-
+    //lupa pesan commit
     /**
      * Seed the application's database.
      */

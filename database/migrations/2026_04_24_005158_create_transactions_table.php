@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    //lupa pesan commit
     /**
      * Run the migrations.
      */
