@@ -82,5 +82,34 @@ class DatabaseSeeder extends Seeder
             'price' => 35000,
             'stock' => 50,
         ]);
+        Event::create([
+            'category_id' => $category1->id,
+            'title' => 'Cyber Security Seminar',
+            'description' => 'Seminar tentang keamanan data dan hacking prevention',
+            'date' => '2026-05-10 13:00:00',
+            'location' => 'Amikom Auditorium',
+            'price' => 60000,
+            'stock' => 120,
+        ]);
+
+        Event::create([
+            'category_id' => $category2->id,
+            'title' => 'Stand Up Comedy Night',
+            'description' => 'Acara hiburan stand up comedy dengan komika terkenal',
+            'date' => '2026-06-20 19:30:00',
+            'location' => 'Gedung Serbaguna',
+            'price' => 40000,
+            'stock' => 150,
+        ]);
+
+        Event::create([
+            'category_id' => $category3->id,
+            'title' => 'Mobile App Development Workshop',
+            'description' => 'Belajar membuat aplikasi Android dari dasar',
+            'date' => '2026-07-05 09:00:00',
+            'location' => 'Lab Mobile Amikom',
+            'price' => 45000,
+            'stock' => 60,
+        ]);
     }
 }
