@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    ////
+    
     /**
      * Tampilkan daftar kategori
      */

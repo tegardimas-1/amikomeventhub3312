@@ -30,9 +30,9 @@
                     <select id="statusFilter"
                         class="px-5 py-3 rounded-xl border-slate-200 border bg-white outline-none text-sm font-bold">
                         <option>Semua Status</option>
-                        <option className="text-green-600">Success</option>
-                        <option className="text-orange-600">Pending</option>
-                        <option className="text-rose-600">Expired</option>
+                        <option class="text-green-600">Success</option>
+                        <option class="text-orange-600">Pending</option>
+                        <option class="text-rose-600">Expired</option>
                     </select>
                     <select id="monthFilter"
                         class="px-5 py-3 rounded-xl border-slate-200 border bg-white outline-none text-sm font-bold">

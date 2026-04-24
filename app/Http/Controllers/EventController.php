@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    ////
+    
     /**
      * Show the event detail page
      */
