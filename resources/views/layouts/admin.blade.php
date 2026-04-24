@@ -32,7 +32,7 @@
         <nav class="flex-1 space-y-2">
             <p class="text-[10px] font-bold uppercase tracking-widest text-indigo-400 mb-4 px-2">Main Menu</p>
             
-            <a href="dashboard.html"
+            <a href="{{ route('admin.dashboard') }}"
                 class="flex items-center gap-3 px-4 py-3 @if(request()->routeIs('admin.dashboard')) bg-indigo-800 text-white @else hover:bg-indigo-800 text-indigo-100 @endif rounded-xl font-bold transition">
                 <svg class="w-5 h-5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -42,8 +42,8 @@
                 Dashboard
             </a>
 
-            <a href="admin-events.html"
-                class="flex items-center gap-3 px-4 py-3 @if(request()->routeIs('admin.events')) bg-indigo-800 text-white @else hover:bg-indigo-800 text-indigo-100 @endif rounded-xl font-bold transition">
+            <a href="{{ route('admin.events.index') }}"
+                class="flex items-center gap-3 px-4 py-3 @if(request()->routeIs('admin.events.*')) bg-indigo-800 text-white @else hover:bg-indigo-800 text-indigo-100 @endif rounded-xl font-bold transition">
                 <svg class="w-5 h-5 text-indigo-400 group-hover:text-indigo-300" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -53,7 +53,7 @@
                 Kelola Event
             </a>
 
-            <a href="admin-transactions.html"
+            <a href="{{ route('admin.transactions.index') }}"
                 class="flex items-center gap-3 px-4 py-3 @if(request()->routeIs('admin.transactions.*')) bg-indigo-800 text-white @else hover:bg-indigo-800 text-indigo-100 @endif rounded-xl font-bold transition">
                 <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -61,6 +61,16 @@
                     </path>
                 </svg>
                 Laporan Transaksi
+            </a>
+
+            <a href="{{ route('admin.categories.index') }}"
+                class="flex items-center gap-3 px-4 py-3 @if(request()->routeIs('admin.categories.*')) bg-indigo-800 text-white @else hover:bg-indigo-800 text-indigo-100 @endif rounded-xl font-bold transition">
+                <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01">
+                    </path>
+                </svg>
+                Kelola Kategori
             </a>
         </nav>
 
