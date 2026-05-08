@@ -5,17 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\CategoryController;
-
-/*
-|--------------------------------------------------------------------------
-| WEB ROUTES - AmikomEventHub
-|--------------------------------------------------------------------------
-*/
-
-// ==================== USER AREA ====================
+use App\Http\Controllers\Admin\EventController as EventAdminController;
 
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -49,18 +41,12 @@ Route::get('/tentang', fn() => view('tentang'))->name('tentang');
 // ==================== ADMIN AREA ====================
 
 Route::prefix('admin')->name('admin.')->group(function () {
+    
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Events
-    Route::prefix('events')->name('events.')->group(function () {
-        Route::get('/', [AdminEventController::class, 'index'])->name('index');
-        Route::get('/create', [AdminEventController::class, 'create'])->name('create');
-        Route::post('/', [AdminEventController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [AdminEventController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [AdminEventController::class, 'update'])->name('update');
-        Route::delete('/{id}', [AdminEventController::class, 'destroy'])->name('destroy');
-    });
+    Route::resource('events', EventAdminController::class);
 
     // Transactions
     Route::prefix('transactions')->name('transactions.')->group(function () {
@@ -78,3 +64,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('destroy');
     });
 });
+
