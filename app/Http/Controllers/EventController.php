@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -12,9 +14,8 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        // TODO: Ambil data event dari database berdasarkan ID
-        // Untuk sekarang, hanya render view tanpa data
-        return view('event-detail');
+        $event = Event::with('category')->findOrFail($id);
+        return view('event-detail', compact('event'));
     }
 
     /**
@@ -22,19 +23,32 @@ class EventController extends Controller
      */
     public function checkout($id)
     {
-        // TODO: Ambil data event dari database berdasarkan ID
-        // TODO: Ambil data tiket yang tersedia
-        // Untuk sekarang, hanya render view tanpa data
-        return view('checkout');
+        $event = Event::with('category')->findOrFail($id);
+        return view('checkout', compact('event'));
     }
 
     /**
      * Show events catalog/listing
      */
-    public function index()
+    public function index(Request $request)
     {
-        // TODO: Ambil semua events dari database
-        // Untuk sekarang, hanya render view tanpa data
-        return view('katalog');
+        $query = Event::with('category');
+        
+        // Filter by category jika ada
+        if ($request->has('kategori') && $request->kategori != '') {
+            $query->where('category_id', $request->kategori);
+        }
+        
+        // Search by title
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('title', 'LIKE', '%' . $search . '%')
+                  ->orWhere('description', 'LIKE', '%' . $search . '%');
+        }
+        
+        $events = $query->latest()->paginate(12);
+        $categories = Category::all();
+        
+        return view('katalog', compact('events', 'categories'));
     }
 }

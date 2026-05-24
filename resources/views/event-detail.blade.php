@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Event - AmikomEventHub')
+@section('title', $event->title . ' - AmikomEventHub')
 
 @section('content')
 
@@ -8,16 +8,23 @@
         <!-- Left: Poster -->
         <div class="lg:col-span-1">
             <div class="sticky top-32">
-                <img src="{{ asset('assets/concert.png') }}" alt="Concert Poster"
-                    class="w-full rounded-[2.5rem] shadow-2xl border-8 border-white">
+                @if($event->poster_path)
+                    <img src="{{ asset('storage/' . $event->poster_path) }}" alt="{{ $event->title }}"
+                        class="w-full rounded-[2.5rem] shadow-2xl border-8 border-white object-cover aspect-[3/4]">
+                @else
+                    <div class="w-full aspect-[3/4] bg-gradient-to-br from-indigo-400 to-purple-600 rounded-[2.5rem] shadow-2xl border-8 border-white flex items-center justify-center">
+                        <svg class="w-24 h-24 text-white opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                @endif
                 <div class="mt-8 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">
                     <h4 class="font-bold mb-4">Penyelenggara</h4>
                     <div class="flex items-center gap-4">
-                        <div
-                            class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold">
-                            AB</div>
+                        <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold">
+                            AH</div>
                         <div>
-                            <p class="font-bold text-slate-800">ABP Productions</p>
+                            <p class="font-bold text-slate-800">AmikomEventHub</p>
                             <p class="text-xs text-slate-500">Verified Organizer</p>
                         </div>
                     </div>
@@ -28,11 +35,12 @@
         <!-- Right: Details -->
         <div class="lg:col-span-2 space-y-12">
             <div class="space-y-4">
-                <span
-                    class="px-4 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-bold uppercase tracking-wider">Music
-                    Festival</span>
-                <h1 class="text-4xl md:text-5xl font-black leading-tight">Jazz Night 2024: A Celebration of Rhythm &
-                    Melody</h1>
+                @if($event->category)
+                <span class="px-4 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-bold uppercase tracking-wider">
+                    {{ $event->category->name }}
+                </span>
+                @endif
+                <h1 class="text-4xl md:text-5xl font-black leading-tight">{{ $event->title }}</h1>
                 <div class="flex flex-wrap gap-6 text-slate-500 font-medium">
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,7 +48,15 @@
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                             </path>
                         </svg>
-                        <span>Saturday, 16 Nov 2024</span>
+                        <span>{{ \Carbon\Carbon::parse($event->date)->format('l, d M Y') }}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z">
+                            </path>
+                        </svg>
+                        <span>{{ \Carbon\Carbon::parse($event->date)->format('H:i') }} WIB</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +66,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
-                        <span>The Blue Note Lounge, Metropolis</span>
+                        <span>{{ $event->location }}</span>
                     </div>
                 </div>
             </div>
@@ -58,33 +74,34 @@
             <div class="prose prose-slate max-w-none">
                 <h3 class="text-2xl font-bold mb-4">Deskripsi Event</h3>
                 <p class="text-lg text-slate-600 leading-relaxed">
-                    Nikmati malam yang tak terlupakan dengan alunan jazz dari musisi internasional. Jazz Night 2024
-                    hadir untuk membawa Anda ke dalam perjalanan melodi yang menenangkan dan ritme yang menggugah jiwa.
-                </p>
-                <p class="text-lg text-slate-600 leading-relaxed mt-4">
-                    Tahun ini kami menghadirkan <strong>The Jazz Collective</strong>, <strong>Luna Vance</strong>, dan
-                    artis favorit lainnya. Acara ini juga dilengkapi dengan food stall premium dan area networking yang
-                    nyaman.
+                    {!! nl2br(e($event->description)) !!}
                 </p>
             </div>
 
-            <div
-                class="bg-indigo-600 rounded-[2.5rem] p-8 md:p-12 text-white shadow-2xl shadow-indigo-200 relative overflow-hidden">
+            <div class="bg-indigo-600 rounded-[2.5rem] p-8 md:p-12 text-white shadow-2xl shadow-indigo-200 relative overflow-hidden">
                 <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
                     <div>
                         <p class="text-indigo-200 font-bold uppercase tracking-widest text-sm mb-2">Harga Tiket</p>
-                        <h2 class="text-5xl font-black">Rp 150.000 <span class="text-lg font-medium text-indigo-200">/
-                                orang</span></h2>
+                        <h2 class="text-5xl font-black">
+                            @if($event->price == 0 || $event->price == null)
+                                Gratis
+                            @else
+                                Rp {{ number_format($event->price, 0, ',', '.') }}
+                            @endif
+                            @if($event->price != 0 && $event->price != null)
+                            <span class="text-lg font-medium text-indigo-200">/orang</span>
+                            @endif
+                        </h2>
                         <p class="mt-4 text-indigo-100 flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            Sisa stok: <span class="font-bold underline">42 Tiket lagi!</span>
+                            Sisa stok: <span class="font-bold underline">{{ $event->stock }} Tiket</span>
                         </p>
                     </div>
                     <div>
-                        <a href="{{ route('events.checkout', 1) }}"
+                        <a href="{{ route('events.checkout', $event->id) }}"
                             class="inline-block px-10 py-5 bg-white text-indigo-600 rounded-2xl font-black text-xl hover:scale-105 transition-transform shadow-xl">
                             Pesan Sekarang
                         </a>
@@ -129,8 +146,7 @@
 @section('extra-scripts')
 <script>
     function showMidtrans() {
-        // Redirect to checkout page
-        window.location.href = "{{ route('events.checkout', 1) }}";
+        window.location.href = "{{ route('events.checkout', $event->id) }}";
     }
 </script>
 @endsection

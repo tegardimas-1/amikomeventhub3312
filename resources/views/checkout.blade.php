@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Checkout - AmikomEventHub')
+@section('title', 'Checkout - ' . $event->title . ' - AmikomEventHub')
 
 @section('content')
 
 <main class="max-w-3xl mx-auto px-6 py-20">
     <!-- ===== HEADER SECTION ===== -->
     <section class="mb-12">
-        <a href="{{ route('events.show', 1) }}" class="text-indigo-600 font-bold flex items-center gap-2 mb-6 hover:gap-3 transition-all">
+        <a href="{{ route('events.show', $event->id) }}" class="text-indigo-600 font-bold flex items-center gap-2 mb-6 hover:gap-3 transition-all">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -26,11 +26,26 @@
             
             <!-- Event Details -->
             <div class="flex gap-6 items-start">
-                <img src="{{ asset('assets/concert.png') }}" alt="Event" class="w-24 h-24 rounded-2xl object-cover flex-shrink-0">
+                @if($event->poster_path)
+                    <img src="{{ asset('storage/' . $event->poster_path) }}" alt="{{ $event->title }}" class="w-24 h-24 rounded-2xl object-cover flex-shrink-0">
+                @else
+                    <div class="w-24 h-24 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                @endif
                 <div>
-                    <h3 class="font-extrabold text-lg">Jazz Night 2024: A Celebration</h3>
-                    <p class="text-slate-500 text-sm">16 Nov 2024 • The Blue Note Lounge</p>
-                    <p class="text-indigo-600 font-bold mt-3">1 x Rp 150.000</p>
+                    <h3 class="font-extrabold text-lg">{{ $event->title }}</h3>
+                    <p class="text-slate-500 text-sm">{{ \Carbon\Carbon::parse($event->date)->format('d M Y') }} • {{ $event->location }}</p>
+                    <p class="text-indigo-600 font-bold mt-3">
+                        1 x 
+                        @if($event->price == 0 || $event->price == null)
+                            Gratis
+                        @else
+                            Rp {{ number_format($event->price, 0, ',', '.') }}
+                        @endif
+                    </p>
                 </div>
             </div>
 
@@ -38,7 +53,13 @@
             <div class="mt-8 pt-6 border-t space-y-3">
                 <div class="flex justify-between">
                     <span class="text-slate-600">Harga Tiket</span>
-                    <span class="font-semibold">Rp 150.000</span>
+                    <span class="font-semibold">
+                        @if($event->price == 0 || $event->price == null)
+                            Gratis
+                        @else
+                            Rp {{ number_format($event->price, 0, ',', '.') }}
+                        @endif
+                    </span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-slate-600">Biaya Layanan</span>
@@ -46,7 +67,9 @@
                 </div>
                 <div class="flex justify-between text-2xl font-black mt-4 pt-4 border-t">
                     <span>Total Bayar</span>
-                    <span class="text-indigo-600">Rp 155.000</span>
+                    <span class="text-indigo-600">
+                        Rp {{ number_format(($event->price ?? 0) + 5000, 0, ',', '.') }}
+                    </span>
                 </div>
             </div>
         </section>
@@ -141,7 +164,7 @@
             <!-- Total Amount -->
             <div>
                 <p class="text-slate-500 font-medium mb-2">Total Tagihan</p>
-                <h2 class="text-4xl font-black text-indigo-600">Rp 155.000</h2>
+                <h2 class="text-4xl font-black text-indigo-600">Rp {{ number_format(($event->price ?? 0) + 5000, 0, ',', '.') }}</h2>
                 <p class="text-xs text-slate-400 mt-2">Order ID: <span id="orderId" class="font-mono">—</span></p>
             </div>
 
@@ -205,7 +228,7 @@
         
         // Simulate payment processing
         setTimeout(() => {
-            window.location.href = '{{ route('tickets.show', 1) }}';
+            window.location.href = '{{ route('checkout.success', 'ORDER_' . $event->id . '_' . time()) }}';
         }, 1000);
     }
 
