@@ -3,85 +3,76 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    
-    /**
-     * Tampilkan daftar kategori
-     */
-    public function index()
+    public function index(Request $request)
     {
-        // TODO: Ganti dengan query ke database
-        $categories = [
-            (object)[
-                'id' => 1,
-                'name' => 'Musik',
-                'description' => 'Acara musik dan konser',
-                'events_count' => 5
-            ],
-            (object)[
-                'id' => 2,
-                'name' => 'Teknologi',
-                'description' => 'Workshop dan seminar teknologi',
-                'events_count' => 8
-            ],
-            (object)[
-                'id' => 3,
-                'name' => 'Seminar',
-                'description' => 'Acara seminar dan diskusi',
-                'events_count' => 12
-            ],
-            (object)[
-                'id' => 4,
-                'name' => 'Workshop',
-                'description' => 'Acara workshop dan pelatihan',
-                'events_count' => 15
-            ],
-        ];
+        $query = Category::withCount('events');
+        
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'LIKE', '%' . $search . '%')
+                  ->orWhere('description', 'LIKE', '%' . $search . '%');
+        }
+        
+        $categories = $query->paginate(10);
 
         return view('admin.categories.index', compact('categories'));
     }
 
-    /**
-     * Tampilkan form create kategori
-     */
     public function create()
     {
         return view('admin.categories.create');
     }
 
-    /**
-     * Simpan kategori baru
-     */
     public function store(Request $request)
     {
-        // TODO: Implementasi store
+        $validated = $request->validate([
+            'name'        => 'required|string|max:255|unique:categories',
+            'description' => 'nullable|string|max:1000'
+        ]);
+
+        $validated['slug'] = Str::slug($validated['name']);
+
+        Category::create($validated);
+
+        return redirect()->route('admin.categories.index')
+                        ->with('success', 'Kategori berhasil ditambahkan!');
     }
 
-    /**
-     * Tampilkan form edit kategori
-     */
     public function edit($id)
     {
-        return view('admin.categories.edit');
+        $category = Category::findOrFail($id);
+        return view('admin.categories.edit', compact('category'));
     }
 
-    /**
-     * Update kategori
-     */
     public function update(Request $request, $id)
     {
-        // TODO: Implementasi update
+        $category = Category::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name'        => 'required|string|max:255|unique:categories,name,' . $id,
+            'description' => 'nullable|string|max:1000'
+        ]);
+
+        $validated['slug'] = Str::slug($validated['name']);
+
+        $category->update($validated);
+
+        return redirect()->route('admin.categories.index')
+                        ->with('success', 'Kategori berhasil diperbarui!');
     }
 
-    /**
-     * Hapus kategori
-     */
     public function destroy($id)
     {
-        // TODO: Implementasi destroy
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('admin.categories.index')
+                        ->with('success', 'Kategori berhasil dihapus!');
     }
 }
-

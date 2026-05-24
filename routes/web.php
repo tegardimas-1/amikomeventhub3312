@@ -7,6 +7,7 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\EventController as EventAdminController;
 
 // Home
@@ -23,9 +24,6 @@ Route::prefix('events')->name('events.')->group(function () {
 Route::get('/checkout/success/{orderId}', function ($orderId) {
     return view('checkout-success', ['order_id' => $orderId]);
 })->name('checkout.success');
-
-// Katalog (alias untuk events index)
-Route::get('/katalog', [EventController::class, 'index'])->name('katalog');
 
 // Tickets
 Route::prefix('tickets')->name('tickets.')->group(function () {
@@ -63,5 +61,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/{id}', [CategoryController::class, 'update'])->name('update');
         Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('destroy');
     });
+
+    // Partners
+    Route::resource('partners', PartnerController::class);
 });
 

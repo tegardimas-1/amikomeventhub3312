@@ -55,105 +55,89 @@
     </div>
 </section>
 
-<!-- Events Grid -->
-<section id="events" class="max-w-7xl mx-auto px-6 py-20">
-    <div class="flex justify-between items-end mb-12">
-        <div>
-            <h2 class="text-3xl font-extrabold mb-2">Event Terdekat</h2>
-            <p class="text-slate-500 font-medium">Jangan sampai ketinggalan acara seru minggu ini!</p>
-        </div>
-        <div class="flex gap-2">
-            <button class="p-3 border rounded-xl hover:bg-white hover:shadow-md transition">Semua Kategori</button>
-        </div>
-    </div>
+<!-- Events Section — sisipkan setelah Hero Section -->
+<section class="py-16 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Event Card 1 -->
-        <div
-            class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="relative overflow-hidden aspect-[3/4]">
-                <img src="{{ asset('assets/concert.png') }}" alt="Jazz Night"
-                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                <div
-                    class="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur rounded-lg text-xs font-bold uppercase text-indigo-600">
-                    Musik</div>
+        <div class="flex justify-between items-end mb-10">
+            <div>
+                <h2 class="text-3xl font-bold mb-1">Event Terdekat</h2>
+                <p class="text-slate-500">Jangan sampai ketinggalan acara seru minggu ini!</p>
             </div>
-            <div class="p-6">
-                <h3 class="text-xl font-bold mb-2 group-hover:text-indigo-600 transition">Jazz Night 2024: A
-                    Celebration</h3>
-                <div class="flex items-center gap-2 text-slate-500 text-sm mb-4">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span>16 November 2024, 19:30</span>
-                </div>
-                <div class="flex justify-between items-center pt-4 border-t">
-                    <span class="text-2xl font-black text-indigo-600">Rp 150rb</span>
-                    <a href="{{ route('events.show', 1) }}"
-                        class="px-5 py-2 bg-indigo-50 text-indigo-600 rounded-xl font-bold hover:bg-indigo-600 hover:text-white transition">Lihat
-                        Detail</a>
-                </div>
-            </div>
+            <a href="/katalog"
+               class="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-white hover:shadow transition">
+                Semua Kategori
+            </a>
         </div>
 
-        <!-- Event Card 2 -->
-        <div
-            class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="relative overflow-hidden aspect-[3/4]">
-                <img src="{{ asset('assets/workshop.png') }}" alt="AI & Future"
-                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                <div
-                    class="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur rounded-lg text-xs font-bold uppercase text-indigo-600">
-                    Technology</div>
-            </div>
-            <div class="p-6">
-                <h3 class="text-xl font-bold mb-2 group-hover:text-indigo-600 transition">AI & Future: Unleash The
-                    Power</h3>
-                <div class="flex items-center gap-2 text-slate-500 text-sm mb-4">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span>26 October 2024, 09:00</span>
+        @if(isset($events) && count($events) > 0)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($events as $event)
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+
+                {{-- Poster --}}
+                <div class="relative aspect-[3/4] overflow-hidden">
+                    @if($event->poster_path)
+                        <img src="{{ asset('storage/' . $event->poster_path) }}"
+                             alt="{{ $event->title }}"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    @else
+                        <div class="w-full h-full bg-gradient-to-br from-indigo-400 to-purple-600 flex items-center justify-center">
+                            <svg class="w-20 h-20 text-white opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                    @endif
+
+                    {{-- Badge kategori --}}
+                    @if($event->category)
+                    <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur rounded-lg text-xs font-bold uppercase text-indigo-600">
+                        {{ $event->category->name }}
+                    </div>
+                    @endif
                 </div>
-                <div class="flex justify-between items-center pt-4 border-t">
-                    <span class="text-2xl font-black text-indigo-600">Rp 50rb</span>
-                    <a href="{{ route('events.show', 2) }}"
-                        class="px-5 py-2 bg-indigo-50 text-indigo-600 rounded-xl font-bold hover:bg-indigo-600 hover:text-white transition">Lihat
-                        Detail</a>
+
+                {{-- Info event --}}
+                <div class="p-5">
+                    <h3 class="text-lg font-bold mb-2 group-hover:text-indigo-600 transition line-clamp-2">
+                        {{ $event->title }}
+                    </h3>
+
+                    <div class="flex items-center gap-2 text-slate-500 text-sm mb-4">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>{{ \Carbon\Carbon::parse($event->date)->format('d M Y, H:i') }}</span>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                        <span class="text-xl font-black text-indigo-600">
+                            @if(!$event->price || $event->price == 0)
+                                Gratis
+                            @else
+                                Rp {{ number_format($event->price, 0, ',', '.') }}
+                            @endif
+                        </span>
+                        <a href="{{ route('events.show', $event->id) }}"
+                           class="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg text-sm font-bold hover:bg-indigo-600 hover:text-white transition">
+                            Lihat Detail
+                        </a>
+                    </div>
                 </div>
+
             </div>
+            @endforeach
         </div>
 
-        <!-- Event Card 3 -->
-        <div
-            class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="relative overflow-hidden aspect-[3/4]">
-                <img src="{{ asset('assets/hackathon.png') }}" alt="Hackathon 2024"
-                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                <div
-                    class="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur rounded-lg text-xs font-bold uppercase text-indigo-600">
-                    Coding</div>
-            </div>
-            <div class="p-6">
-                <h3 class="text-xl font-bold mb-2 group-hover:text-indigo-600 transition">Hackathon 2024: Ultimate
-                    Marathon</h3>
-                <div class="flex items-center gap-2 text-slate-500 text-sm mb-4">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span>18-20 October 2024</span>
-                </div>
-                <div class="flex justify-between items-center pt-4 border-t">
-                    <span class="text-2xl font-black text-indigo-600">Gratis</span>
-                    <a href="{{ route('events.show', 3) }}"
-                        class="px-5 py-2 bg-indigo-50 text-indigo-600 rounded-xl font-bold hover:bg-indigo-600 hover:text-white transition">Lihat
-                        Detail</a>
-                </div>
-            </div>
+        @else
+        <div class="text-center py-16">
+            <p class="text-slate-500 mb-4">Belum ada event yang tersedia saat ini.</p>
+            <a href="/katalog" class="text-indigo-600 font-bold hover:underline">Lihat semua event →</a>
         </div>
+        @endif
+
     </div>
 </section>
 
