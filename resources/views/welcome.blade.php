@@ -61,7 +61,7 @@
 
         <div class="flex justify-between items-end mb-10">
             <div>
-                <h2 class="text-3xl font-bold mb-1">Event Terdekat</h2>
+                <h2 class="text-3xl font-bold mb-1">Event Terkontol</h2>
                 <p class="text-slate-500">Jangan sampai ketinggalan acara seru minggu ini!</p>
             </div>
             <a href="/katalog"
