@@ -96,7 +96,16 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => env('DB_SSLMODE', 'prefer'),
+            'sslmode' => env('DB_SSLMODE', 'require'),
+            'options' => extension_loaded('pdo_pgsql') ? (function () {
+                $host = env('DB_HOST', '');
+                // Extract Neon endpoint ID from host (e.g., "ep-late-block-aohyhh4u" from "ep-late-block-aohyhh4u.aws-ap-southeast-1.pg.laravel.cloud")
+                $endpointId = explode('.', $host)[0] ?? '';
+                if ($endpointId && str_starts_with($endpointId, 'ep-')) {
+                    return [\PDO::ATTR_PERSISTENT => false, \PDO::PGSQL_ATTR_OPTIONS => sprintf("endpoint=%s", $endpointId)];
+                }
+                return [];
+            })() : [],
         ],
 
         'sqlsrv' => [
