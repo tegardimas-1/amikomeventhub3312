@@ -96,10 +96,8 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => 'require',
-            'options' => [
-            'endpoint' => 'ep-late-block-aohyhh4u',
-],
+            'sslmode' => 'required',
+            'options'=>[],    
         ],
 
         'sqlsrv' => [

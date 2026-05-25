@@ -11,7 +11,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // KOSONGKAN BAGIAN INI (Hapus semua kode di dalam sini)
+        // Biarkan kosong
     }
 
     /**
