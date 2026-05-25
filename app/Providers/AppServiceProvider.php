@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Database\NeonPostgresConnector;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -12,11 +11,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register custom Neon-compatible PostgreSQL connector
-        // for SNI-less endpoint routing on Laravel Cloud
-        $this->app->bind('db.connector.pgsql', function () {
-            return new NeonPostgresConnector;
-        });
+        // KOSONGKAN BAGIAN INI (Hapus semua kode di dalam sini)
     }
 
     /**
@@ -24,6 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Biarkan kosong
     }
 }
