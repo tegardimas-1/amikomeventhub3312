@@ -52,64 +52,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Workshop praktis dan pelatihan',
         ]);
 
-        // 4. Events
-        Event::create([
-            'category_id' => $category1->id,
-            'title' => 'AI Summit 2026',
-            'description' => 'Event teknologi AI dengan pembicara internasional',
-            'date' => '2026-05-01 10:00:00',
-            'location' => 'Amikom Convention Center',
-            'price' => 50000,
-            'stock' => 100,
-        ]);
-
-        Event::create([
-            'category_id' => $category2->id,
-            'title' => 'Music Fest 2026',
-            'description' => 'Festival musik dengan artis lokal dan internasional',
-            'date' => '2026-06-15 18:00:00',
-            'location' => 'Gedung Kesenian Amikom',
-            'price' => 75000,
-            'stock' => 200,
-        ]);
-
-        Event::create([
-            'category_id' => $category3->id,
-            'title' => 'Web Development Workshop',
-            'description' => 'Workshop membuat website dengan Laravel',
-            'date' => '2026-04-30 09:00:00',
-            'location' => 'Lab Komputer Amikom',
-            'price' => 35000,
-            'stock' => 50,
-        ]);
-        Event::create([
-            'category_id' => $category1->id,
-            'title' => 'Cyber Security Seminar',
-            'description' => 'Seminar tentang keamanan data dan hacking prevention',
-            'date' => '2026-05-10 13:00:00',
-            'location' => 'Amikom Auditorium',
-            'price' => 60000,
-            'stock' => 120,
-        ]);
-
-        Event::create([
-            'category_id' => $category2->id,
-            'title' => 'Stand Up Comedy Night',
-            'description' => 'Acara hiburan stand up comedy dengan komika terkenal',
-            'date' => '2026-06-20 19:30:00',
-            'location' => 'Gedung Serbaguna',
-            'price' => 40000,
-            'stock' => 150,
-        ]);
-
-        Event::create([
-            'category_id' => $category3->id,
-            'title' => 'Mobile App Development Workshop',
-            'description' => 'Belajar membuat aplikasi Android dari dasar',
-            'date' => '2026-07-05 09:00:00',
-            'location' => 'Lab Mobile Amikom',
-            'price' => 45000,
-            'stock' => 60,
-        ]);
+        
     }
 }
