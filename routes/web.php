@@ -29,7 +29,15 @@ Route::get('/login', function () {
 // RUTE ADMIN AREA
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Rute  (tanpa middleware)
+    // Rute root (handle both login & authenticated)
+    Route::get('/', function () {
+        if (auth()->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('admin.login');
+    });
+
+    // Rute login (tanpa middleware)
     Route::get('login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('login', [AuthController::class, 'login'])->name('login.post');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -39,7 +47,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('api/stats', [DashboardController::class, 'getStats'])->name('api.stats');
         Route::get('api/latest-transactions', [DashboardController::class, 'getLatestTransactions'])->name('api.latest-transactions');
-        Route::get('/', fn() => redirect()->route('admin.dashboard'));
         Route::resource('events', EventAdminController::class);
         Route::resource('categories', CategoryController::class);
         Route::resource('partners', PartnerController::class);
