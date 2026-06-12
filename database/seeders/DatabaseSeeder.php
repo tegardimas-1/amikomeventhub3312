@@ -18,39 +18,49 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Admin User
-        User::create([
-            'name' => 'Admin Amikom',
-            'email' => 'admin@amikom.ac.id',
-            'password' => bcrypt('password123'),
-            'role' => 'admin',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@amikom.ac.id'],
+            [
+                'name' => 'Admin Amikom',
+                'password' => bcrypt('password123'),
+                'role' => 'admin',
+            ]
+        );
 
         // 2. Regular User
-        User::create([
-            'name' => 'User Test',
-            'email' => 'user@amikom.ac.id',
-            'password' => bcrypt('password123'),
-            'role' => 'user',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'user@amikom.ac.id'],
+            [
+                'name' => 'User Test',
+                'password' => bcrypt('password123'),
+                'role' => 'user',
+            ]
+        );
 
         // 3. Categories
-        $category1 = Category::create([
-            'name' => 'Seminar IT',
-            'slug' => 'seminar-it',
-            'description' => 'Seminar seputar teknologi informasi',
-        ]);
+        Category::updateOrCreate(
+            ['slug' => 'seminar-it'],
+            [
+                'name' => 'Seminar IT',
+                'description' => 'Seminar seputar teknologi informasi',
+            ]
+        );
 
-        $category2 = Category::create([
-            'name' => 'Entertainment',
-            'slug' => 'entertainment',
-            'description' => 'Event hiburan dan musik',
-        ]);
+        Category::updateOrCreate(
+            ['slug' => 'entertainment'],
+            [
+                'name' => 'Entertainment',
+                'description' => 'Event hiburan dan musik',
+            ]
+        );
 
-        $category3 = Category::create([
-            'name' => 'Workshop',
-            'slug' => 'workshop',
-            'description' => 'Workshop praktis dan pelatihan',
-        ]);
+        Category::updateOrCreate(
+            ['slug' => 'workshop'],
+            [
+                'name' => 'Workshop',
+                'description' => 'Workshop praktis dan pelatihan',
+            ]
+        );
 
         
     }

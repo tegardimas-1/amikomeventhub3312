@@ -10,9 +10,7 @@ use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
 
-// =====================
 // RUTE PUBLIK (User Area)
-// =====================
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/event/{id}', [EventController::class, 'show'])->name('events.show');
 Route::get('/checkout', [EventController::class, 'checkout'])->name('checkout');
@@ -23,17 +21,15 @@ Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
 
-// =====================
 // RUTE ADMIN AREA
-// =====================
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Rute bebas akses (tanpa middleware)
+    // Rute  (tanpa middleware)
     Route::get('login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('login', [AuthController::class, 'login'])->name('login.post');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Rute yang DILINDUNGI middleware auth + admin
+    // Rute middleware auth + admin
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/', fn() => redirect()->route('admin.dashboard'));
