@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -13,41 +14,35 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        // TODO: Ganti dengan query ke database
-        $transactions = [
-            (object)[
-                'id' => 1,
-                'order_id' => '#TRX-99210',
-                'customer_name' => 'Donni Prabowo',
-                'customer_email' => 'donni@example.com',
-                'event_title' => 'Jazz Night 2024',
-                'transaction_date' => '26 Mar 2024, 17:45',
-                'status' => 'success',
-                'total_amount' => 'Rp 155.000'
-            ],
-            (object)[
-                'id' => 2,
-                'order_id' => '#TRX-99209',
-                'customer_name' => 'Maya Sari',
-                'customer_email' => 'maya@example.com',
-                'event_title' => 'AI & Future Workshop',
-                'transaction_date' => '26 Mar 2024, 15:20',
-                'status' => 'pending',
-                'total_amount' => 'Rp 55.000'
-            ],
-            (object)[
-                'id' => 3,
-                'order_id' => '#TRX-99208',
-                'customer_name' => 'Budi Santoso',
-                'customer_email' => 'budi@example.com',
-                'event_title' => 'Hackathon 2024',
-                'transaction_date' => '25 Mar 2024, 10:00',
-                'status' => 'success',
-                'total_amount' => 'Rp 0'
-            ],
-        ];
+        $transactions = Transaction::with('event')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('admin.transactions.index', compact('transactions'));
+    }
+
+    /**
+     * API endpoint untuk fetch transaksi real-time (AJAX)
+     */
+    public function getTransactions(Request $request)
+    {
+        $transactions = Transaction::with('event')
+            ->orderBy('created_at', 'desc')
+            ->limit(20)
+            ->get();
+
+        return response()->json([
+            'data' => $transactions->map(fn($t) => [
+                'id' => $t->id,
+                'order_id' => $t->order_id,
+                'customer_name' => $t->customer_name,
+                'customer_email' => $t->customer_email,
+                'event_title' => $t->event->title ?? 'N/A',
+                'transaction_date' => $t->created_at->format('d M Y, H:i'),
+                'status' => $t->status,
+                'total_amount' => 'Rp ' . number_format($t->total_price, 0, ',', '.'),
+            ])
+        ]);
     }
 
     /**
@@ -55,7 +50,51 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        // TODO: Implementasi show
+        $transaction = Transaction::with('event')->findOrFail($id);
+        return view('admin.transactions.show', compact('transaction'));
+    }
+
+    /**
+     * Halaman edit transaksi
+     */
+    public function edit(Transaction $transaction)
+    {
+        return view('admin.transactions.edit', compact('transaction'));
+    }
+
+    /**
+     * Update transaksi
+     */
+    public function update(Request $request, Transaction $transaction)
+    {
+        $validated = $request->validate([
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email|max:255',
+            'customer_phone' => 'required|string|max:20',
+            'total_price' => 'required|numeric|min:0',
+            'status' => 'required|in:pending,paid,cancelled',
+        ]);
+
+        $transaction->update($validated);
+
+        return redirect()->route('admin.transactions.index')
+                        ->with('success', 'Transaksi berhasil diperbarui!');
+    }
+
+    /**
+     * Hapus transaksi
+     */
+    public function destroy(Transaction $transaction)
+    {
+        // Kembalikan stock event jika transaksi dihapus
+        if ($transaction->event) {
+            $transaction->event->increment('stock');
+        }
+
+        $transaction->delete();
+
+        return redirect()->route('admin.transactions.index')
+                        ->with('success', 'Transaksi berhasil dihapus!');
     }
 }
 

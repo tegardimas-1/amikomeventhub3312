@@ -15,7 +15,7 @@
                     </svg>
                 </div>
                 <p class="text-slate-400 text-sm font-bold uppercase mb-1">Total Pendapatan</p>
-                <h3 class="text-2xl font-black">Rp 12.450.000</h3>
+                <h3 class="text-2xl font-black" id="totalRevenue">Rp {{ number_format($statistics['totalRevenue'], 0, ',', '.') }}</h3>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                 <div class="w-12 h-12 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-4">
@@ -26,7 +26,7 @@
                     </svg>
                 </div>
                 <p class="text-slate-400 text-sm font-bold uppercase mb-1">Tiket Terjual</p>
-                <h3 class="text-2xl font-black">1.284</h3>
+                <h3 class="text-2xl font-black" id="ticketsSold">{{ $statistics['ticketsSold'] }}</h3>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                 <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-4">
@@ -36,7 +36,7 @@
                     </svg>
                 </div>
                 <p class="text-slate-400 text-sm font-bold uppercase mb-1">Event Aktif</p>
-                <h3 class="text-2xl font-black">8 Event</h3>
+                <h3 class="text-2xl font-black" id="activeEvents">{{ $statistics['activeEvents'] }} Event</h3>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                 <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mb-4">
@@ -46,14 +46,14 @@
                     </svg>
                 </div>
                 <p class="text-slate-400 text-sm font-bold uppercase mb-1">Pesanan Pending</p>
-                <h3 class="text-2xl font-black">12 Pesanan</h3>
+                <h3 class="text-2xl font-black" id="pendingOrders">{{ $statistics['pendingOrders'] }} Pesanan</h3>
             </div>
         </div>
 
         <!-- Latest Sales Table -->
         <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
             <div class="p-8 border-b flex justify-between items-center">
-                <h3 class="font-black text-xl">Transaksi Terakhir</h3>
+                <h3 class="font-black text-xl">Transaksi Terakhir <span class="text-indigo-600 font-bold ml-2 text-sm">● Live</span></h3>
                 <a href="{{ route('admin.transactions.index') }}" class="text-indigo-600 font-bold hover:underline">Lihat Semua</a>
             </div>
             <div class="overflow-x-auto">
@@ -66,45 +66,103 @@
                             <th class="px-8 py-4">Total</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y border-t">
-                        <tr class="hover:bg-slate-50 transition">
+                    <tbody class="divide-y border-t" id="latestTransactionsTable">
+                        @forelse($latestTransactions ?? [] as $transaction)
+                        <tr class="hover:bg-slate-50 transition animate-pulse">
                             <td class="px-8 py-6">
-                                <p class="font-bold uppercase tracking-wide text-sm">Donni Prabowo</p>
-                                <p class="text-xs text-slate-400">donni@example.com</p>
+                                <p class="font-bold uppercase tracking-wide text-sm">{{ $transaction->customer_name }}</p>
+                                <p class="text-xs text-slate-400">{{ $transaction->customer_email }}</p>
                             </td>
-                            <td class="px-8 py-6 font-medium text-slate-600">Jazz Night 2024</td>
+                            <td class="px-8 py-6 font-medium text-slate-600">{{ $transaction->event->title ?? 'N/A' }}</td>
                             <td class="px-8 py-6">
-                                <span
-                                    class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-bold uppercase">Success</span>
+                                @if($transaction->status == 'paid')
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-bold uppercase">Paid</span>
+                                @elseif($transaction->status == 'pending')
+                                    <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg text-xs font-bold uppercase">Pending</span>
+                                @else
+                                    <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold uppercase">{{ strtoupper($transaction->status) }}</span>
+                                @endif
                             </td>
-                            <td class="px-8 py-6 font-black text-indigo-600">Rp 155.000</td>
+                            <td class="px-8 py-6 font-black text-indigo-600">Rp {{ number_format($transaction->total_price, 0, ',', '.') }}</td>
                         </tr>
-                        <tr class="hover:bg-slate-50 transition">
-                            <td class="px-8 py-6">
-                                <p class="font-bold uppercase tracking-wide text-sm">Maya Sari</p>
-                                <p class="text-xs text-slate-400">maya@example.com</p>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="px-8 py-6 text-center text-slate-500">
+                                <p class="font-medium">Belum ada transaksi</p>
                             </td>
-                            <td class="px-8 py-6 font-medium text-slate-600">AI & Future Workshop</td>
-                            <td class="px-8 py-6">
-                                <span
-                                    class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg text-xs font-bold uppercase">Pending</span>
-                            </td>
-                            <td class="px-8 py-6 font-black text-indigo-600">Rp 55.000</td>
                         </tr>
-                        <tr class="hover:bg-slate-50 transition">
-                            <td class="px-8 py-6">
-                                <p class="font-bold uppercase tracking-wide text-sm">Budi Santoso</p>
-                                <p class="text-xs text-slate-400">budi@example.com</p>
-                            </td>
-                            <td class="px-8 py-6 font-medium text-slate-600">Hackathon 2024</td>
-                            <td class="px-8 py-6">
-                                <span
-                                    class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold uppercase">Free</span>
-                            </td>
-                            <td class="px-8 py-6 font-black text-indigo-600">Rp 0</td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
+    @endsection
+
+    @section('extra-scripts')
+    <script>
+        // Real-time update stats every 2 seconds
+        setInterval(function() {
+            fetch("{{ route('admin.api.stats') }}")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalRevenue').textContent = 'Rp ' + 
+                        new Intl.NumberFormat('id-ID').format(data.totalRevenue);
+                    document.getElementById('ticketsSold').textContent = data.ticketsSold;
+                    document.getElementById('activeEvents').textContent = data.activeEvents + ' Event';
+                    document.getElementById('pendingOrders').textContent = data.pendingOrders + ' Pesanan';
+                })
+                .catch(error => console.error('Error fetching stats:', error));
+        }, 2000);
+
+        // Real-time update latest transactions every 3 seconds
+        setInterval(function() {
+            fetch("{{ route('admin.api.latest-transactions') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('latestTransactionsTable');
+                    
+                    if (data.data.length === 0) {
+                        tableBody.innerHTML = `
+                            <tr>
+                                <td colspan="4" class="px-8 py-6 text-center text-slate-500">
+                                    <p class="font-medium">Belum ada transaksi</p>
+                                </td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    let html = '';
+                    data.data.forEach(transaction => {
+                        let statusClass = 'bg-slate-100 text-slate-600';
+                        let statusText = transaction.status.toUpperCase();
+
+                        if (transaction.status === 'paid') {
+                            statusClass = 'bg-green-100 text-green-700';
+                            statusText = 'PAID';
+                        } else if (transaction.status === 'pending') {
+                            statusClass = 'bg-orange-100 text-orange-700';
+                            statusText = 'PENDING';
+                        }
+
+                        html += `
+                            <tr class="hover:bg-slate-50 transition animate-pulse">
+                                <td class="px-8 py-6">
+                                    <p class="font-bold uppercase tracking-wide text-sm">${transaction.customer_name}</p>
+                                    <p class="text-xs text-slate-400">${transaction.customer_email}</p>
+                                </td>
+                                <td class="px-8 py-6 font-medium text-slate-600">${transaction.event_title}</td>
+                                <td class="px-8 py-6">
+                                    <span class="px-3 py-1 ${statusClass} rounded-lg text-xs font-bold uppercase">${statusText}</span>
+                                </td>
+                                <td class="px-8 py-6 font-black text-indigo-600">${transaction.total_price}</td>
+                            </tr>
+                        `;
+                    });
+
+                    tableBody.innerHTML = html;
+                })
+                .catch(error => console.error('Error fetching transactions:', error));
+        }, 3000);
+    </script>
     @endsection

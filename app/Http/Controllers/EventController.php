@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Category;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -25,6 +26,21 @@ class EventController extends Controller
     {
         $event = Event::with('category')->findOrFail($id);
         return view('checkout', compact('event'));
+    }
+
+    /**
+     * Show user's tickets/transactions
+     */
+    public function ticket(Request $request)
+    {
+        // Get transactions dari email di customer_email
+        $email = $request->input('email');
+        $transactions = Transaction::with('event')
+            ->where('customer_email', $email)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('ticket', compact('transactions'));
     }
 
     /**

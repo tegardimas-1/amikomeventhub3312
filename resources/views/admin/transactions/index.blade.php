@@ -53,9 +53,10 @@
                             <th class="px-8 py-4">Tgl Transaksi</th>
                             <th class="px-8 py-4">Status</th>
                             <th class="px-8 py-4 text-right">Total Tagihan</th>
+                            <th class="px-8 py-4 text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y border-t">
+                    <tbody class="divide-y border-t" id="transactionTable">
                         <!-- Data Transaksi -->
                         @forelse($transactions ?? [] as $transaction)
                         <tr class="hover:bg-slate-50/50 transition">
@@ -67,29 +68,45 @@
                                 <p class="text-xs text-slate-500">{{ $transaction->customer_email ?? '-' }}</p>
                             </td>
                             <td class="px-8 py-6">
-                                <p class="font-medium text-slate-700">{{ $transaction->event_title ?? '-' }}</p>
+                                <p class="font-medium text-slate-700">{{ $transaction->event->title ?? '-' }}</p>
                             </td>
                             <td class="px-8 py-6 text-sm text-slate-500">
-                                {{ $transaction->transaction_date ?? '-' }}
+                                {{ $transaction->created_at->format('d M Y, H:i') }}
                             </td>
                             <td class="px-8 py-6">
-                                @if($transaction->status == 'success')
-                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-bold uppercase ring-1 ring-green-200">Success</span>
+                                @if($transaction->status == 'paid')
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-bold uppercase ring-1 ring-green-200">Paid</span>
                                 @elseif($transaction->status == 'pending')
                                 <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg text-xs font-bold uppercase ring-1 ring-orange-200">Pending</span>
-                                @elseif($transaction->status == 'expired')
-                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-lg text-xs font-bold uppercase ring-1 ring-rose-200">Expired</span>
+                                @elseif($transaction->status == 'cancelled')
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-lg text-xs font-bold uppercase ring-1 ring-rose-200">Cancelled</span>
                                 @else
-                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold uppercase ring-1 ring-slate-200">{{ $transaction->status ?? '-' }}</span>
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold uppercase ring-1 ring-slate-200">{{ strtoupper($transaction->status) }}</span>
                                 @endif
                             </td>
                             <td class="px-8 py-6 text-right font-black text-slate-900">
-                                {{ $transaction->total_amount ?? 'Rp 0' }}
+                                Rp {{ number_format($transaction->total_price, 0, ',', '.') }}
+                            </td>
+                            <td class="px-8 py-6">
+                                <div class="flex gap-2 justify-center">
+                                    <a href="{{ route('admin.transactions.edit', $transaction->id) }}"
+                                        class="px-3 py-2 bg-blue-100 text-blue-600 rounded-lg text-xs font-bold hover:bg-blue-200 transition">
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('admin.transactions.destroy', $transaction->id) }}" method="POST" class="inline"
+                                        onsubmit="return confirm('Yakin ingin menghapus transaksi ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-3 py-2 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="px-8 py-12 text-center text-slate-500">
+                            <td colspan="7" class="px-8 py-12 text-center text-slate-500">
                                 <p class="font-medium">Belum ada transaksi</p>
                             </td>
                         </tr>
@@ -99,7 +116,10 @@
             </div>
 
             <div class="px-8 py-6 bg-slate-50/50 border-t flex justify-between items-center">
-                <p class="text-sm text-slate-500 font-medium">Menampilkan {{ count($transactions ?? []) }} dari {{ count($transactions ?? []) }} transaksi</p>
+                <p class="text-sm text-slate-500 font-medium">
+                    <span id="transactionCount">{{ count($transactions ?? []) }}</span> transaksi terbaru
+                    <span class="text-indigo-600 font-bold ml-2">● Live Update</span>
+                </p>
                 <div class="flex gap-2">
                     <button class="px-4 py-2 border rounded-xl hover:bg-white transition text-sm font-bold opacity-50 cursor-not-allowed">Previous</button>
                     <button class="px-4 py-2 bg-indigo-600 text-white rounded-xl shadow-md text-sm font-bold">1</button>
@@ -107,4 +127,92 @@
                 </div>
             </div>
         </div>
+    @endsection
+
+    @section('extra-scripts')
+    <script>
+        // Auto-refresh transaksi setiap 3 detik
+        setInterval(function() {
+            fetch("{{ route('admin.api.transactions') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('transactionTable');
+                    const countElement = document.getElementById('transactionCount');
+                    
+                    if (data.data.length === 0) {
+                        tableBody.innerHTML = `
+                            <tr>
+                                <td colspan="7" class="px-8 py-12 text-center text-slate-500">
+                                    <p class="font-medium">Belum ada transaksi</p>
+                                </td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    // Build HTML rows
+                    let html = '';
+                    data.data.forEach(transaction => {
+                        let statusClass = 'bg-slate-100 text-slate-600';
+                        let statusText = transaction.status.toUpperCase();
+
+                        if (transaction.status === 'paid') {
+                            statusClass = 'bg-green-100 text-green-700 ring-1 ring-green-200';
+                            statusText = 'PAID';
+                        } else if (transaction.status === 'pending') {
+                            statusClass = 'bg-orange-100 text-orange-700 ring-1 ring-orange-200';
+                            statusText = 'PENDING';
+                        } else if (transaction.status === 'cancelled') {
+                            statusClass = 'bg-rose-100 text-rose-700 ring-1 ring-rose-200';
+                            statusText = 'CANCELLED';
+                        }
+
+                        html += `
+                            <tr class="hover:bg-slate-50/50 transition animate-pulse">
+                                <td class="px-8 py-6">
+                                    <span class="font-mono font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg text-sm">${transaction.order_id}</span>
+                                </td>
+                                <td class="px-8 py-6">
+                                    <p class="font-bold text-slate-800">${transaction.customer_name}</p>
+                                    <p class="text-xs text-slate-500">${transaction.customer_email}</p>
+                                </td>
+                                <td class="px-8 py-6">
+                                    <p class="font-medium text-slate-700">${transaction.event_title}</p>
+                                </td>
+                                <td class="px-8 py-6 text-sm text-slate-500">
+                                    ${transaction.transaction_date}
+                                </td>
+                                <td class="px-8 py-6">
+                                    <span class="px-3 py-1 ${statusClass} rounded-lg text-xs font-bold uppercase">${statusText}</span>
+                                </td>
+                                <td class="px-8 py-6 text-right font-black text-slate-900">
+                                    ${transaction.total_amount}
+                                </td>
+                                <td class="px-8 py-6">
+                                    <div class="flex gap-2 justify-center">
+                                        <a href="/admin/transactions/${transaction.id}/edit"
+                                            class="px-3 py-2 bg-blue-100 text-blue-600 rounded-lg text-xs font-bold hover:bg-blue-200 transition">
+                                            Edit
+                                        </a>
+                                        <form action="/admin/transactions/${transaction.id}" method="POST" class="inline">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="px-3 py-2 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition"
+                                                onclick="return confirm('Yakin ingin menghapus transaksi ini?');">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    });
+
+                    tableBody.innerHTML = html;
+                    countElement.textContent = data.data.length;
+                })
+                .catch(error => console.error('Error fetching transactions:', error));
+        }, 3000); // Refresh setiap 3 detik
+    </script>
     @endsection
