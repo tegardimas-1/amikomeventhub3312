@@ -5,4 +5,4 @@ Muhammad Tegar Dimas S/24.12.3312
 https://amikomeventhub3312-main-7url2p.free.laravel.cloud/
 
 https://amikomeventhub3312-main-7url2p.free.laravel.cloud/admin
-commit terbaru tugas 8(tugas 5)
+commit terbaru tugas 8(tugas 5 dan tugas 10)
