@@ -76,7 +76,7 @@
 
         <!-- STEP 2: BUYER INFORMATION FORM -->
         <section class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
-            <h2 class="text-xl font-bold mb-6 text-indigo-600">📦 Data Pemesan (Tanpa Login)</h2>
+            <h2 class="text-xl font-bold mb-6 text-indigo-600">📦 Data Pemesan</h2>
             
             <form class="space-y-6" id="checkoutForm">
                 <!-- Full Name Field -->

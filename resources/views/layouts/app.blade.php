@@ -70,10 +70,11 @@
                 AH</div>
             <span class="text-xl font-bold tracking-tight">AmikomEventHub</span>
         </a>
-        <div class="hidden md:flex gap-8 font-medium">
+        <div class="hidden md:flex items-center gap-8 font-medium">
             <a href="{{ route('home') }}" class="hover:text-indigo-600 transition">Jelajahi</a>
             <a href="{{ route('home') }}" class="hover:text-indigo-600 transition">Kategori</a>
             <a href="#" class="hover:text-indigo-600 transition">Tentang Kami</a>
+            <a href="{{ route('login') }}" class="rounded-full bg-indigo-600 px-5 py-2 text-white font-semibold hover:bg-indigo-700 transition">Login</a>
         </div>
     </nav>
 
