@@ -9,14 +9,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->string('snap_token')->nullable()->after('status');
+            if (! Schema::hasColumn('transactions', 'snap_token')) {
+                $table->string('snap_token')->nullable()->after('status');
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dropColumn('snap_token');
+            if (Schema::hasColumn('transactions', 'snap_token')) {
+                $table->dropColumn('snap_token');
+            }
         });
     }
 };
