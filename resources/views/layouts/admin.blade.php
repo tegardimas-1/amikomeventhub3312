@@ -196,7 +196,7 @@
         @yield('content')
 
     </main>
-    {{-- ===================== END MAIN CONTENT ===================== --}}
+
 
 </body>
 </html>

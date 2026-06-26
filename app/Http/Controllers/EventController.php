@@ -9,14 +9,16 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    
     /**
      * Show the event detail page
      */
-    public function show($id)
+    public function show(Event $event)
     {
-        $event = Event::with('category')->findOrFail($id);
-        return view('event-detail', compact('event'));
+        // Mengambil daftar kategori untuk keperluan menu header/footer
+        $categories = Category::all();
+
+        // Me-render view dengan membawa data kategori dan data spesifik acara tersebut
+        return view('event-detail', compact('categories', 'event'));
     }
 
     /**
@@ -35,6 +37,7 @@ class EventController extends Controller
     {
         // Get transactions dari email di customer_email
         $email = $request->input('email');
+
         $transactions = Transaction::with('event')
             ->where('customer_email', $email)
             ->orderBy('created_at', 'desc')
@@ -49,22 +52,23 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $query = Event::with('category');
-        
+
         // Filter by category jika ada
         if ($request->has('kategori') && $request->kategori != '') {
             $query->where('category_id', $request->kategori);
         }
-        
+
         // Search by title
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
+
             $query->where('title', 'LIKE', '%' . $search . '%')
                   ->orWhere('description', 'LIKE', '%' . $search . '%');
         }
-        
+
         $events = $query->latest()->paginate(12);
         $categories = Category::all();
-        
+
         return view('katalog', compact('events', 'categories'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Event;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -9,9 +10,19 @@ use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
+    public function __construct()
+    {
+        // Konfigurasi kredensial Midtrans sekali di constructor,
+        // dipakai bersama oleh store(), payment(), dan success().
+        \Midtrans\Config::$serverKey    = config('midtrans.server_key');
+        \Midtrans\Config::$isProduction = config('midtrans.is_production');
+        \Midtrans\Config::$isSanitized  = true;
+        \Midtrans\Config::$is3ds        = true;
+    }
+
     public function create(Event $event)
     {
-        $categories = \App\Models\Category::all();
+        $categories = Category::all();
         return view('checkout.create', compact('event', 'categories'));
     }
 
@@ -44,16 +55,69 @@ class CheckoutController extends Controller
             'status'         => 'pending',
         ]);
 
-        // 5. Kurangi stock event
+        // --- INTEGRASI SNAP MIDTRANS ---
+        $params = [
+            'transaction_details' => [
+                'order_id'     => $orderId,
+                'gross_amount' => $totalPrice,
+            ],
+            'customer_details' => [
+                'first_name' => $request->customer_name,
+                'email'      => $request->customer_email,
+                'phone'      => $request->customer_phone,
+            ],
+        ];
+
+        try {
+            // Minta Snap Token ke Midtrans
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+            // Simpan token ke transaksi
+            $transaction->update(['snap_token' => $snapToken]);
+        } catch (\Exception $e) {
+            // Rollback: transaksi gagal dapat token, jangan kurangi stock,
+            // dan jangan biarkan transaksi pending tanpa token menggantung.
+            $transaction->delete();
+
+            return back()->with('error', 'Gagal memproses pembayaran: ' . $e->getMessage());
+        }
+
+        // 5. Kurangi stock event (hanya setelah Snap Token berhasil dibuat)
         $event->decrement('stock');
 
-        // 6. Redirect ke halaman success dengan transaction ID
-        return redirect()->route('checkout.success', $transaction->id);
+        // 6. Redirect ke halaman pembayaran Snap
+        return redirect()->route('checkout.payment', $transaction->order_id);
+    }
+
+    public function payment($order_id)
+    {
+        $categories  = Category::all();
+        $transaction = Transaction::with('event')->where('order_id', $order_id)->firstOrFail();
+
+        return view('checkout.payment', compact('transaction', 'categories'));
     }
 
     public function success(Transaction $transaction)
     {
         $transaction->load('event');
-        return view('checkout.success', compact('transaction'));
+        $categories = Category::all();
+
+        // Validasi status pembayaran asli dari Midtrans (mencegah manipulasi URL/akses langsung)
+        if ($transaction->status === 'pending') {
+            try {
+                $midtransStatus = \Midtrans\Transaction::status($transaction->order_id);
+
+                if (in_array($midtransStatus->transaction_status, ['capture', 'settlement'])) {
+                    $transaction->update(['status' => 'success']);
+                } elseif (in_array($midtransStatus->transaction_status, ['cancel', 'deny', 'expire'])) {
+                    $transaction->update(['status' => 'failed']);
+                }
+            } catch (\Exception $e) {
+                // Jika gagal cek status (mis. order belum pernah dibayar / koneksi putus),
+                // tetap tampilkan halaman success dengan status apa adanya di DB.
+            }
+        }
+
+        return view('checkout.success', compact('transaction', 'categories'));
     }
 }
