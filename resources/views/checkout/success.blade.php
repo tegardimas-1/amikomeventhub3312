@@ -27,7 +27,7 @@
                 <span class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full font-bold text-sm">
                     @if($transaction->status === 'pending')
                         ⏳ Menunggu Pembayaran
-                    @elseif($transaction->status === 'paid')
+                    @elseif($transaction->status === 'success')
                         ✓ Lunas
                     @elseif($transaction->status === 'cancelled')
                         ✗ Dibatalkan

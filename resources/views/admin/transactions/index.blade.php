@@ -74,7 +74,7 @@
                                 {{ $transaction->created_at->format('d M Y, H:i') }}
                             </td>
                             <td class="px-8 py-6">
-                                @if($transaction->status == 'paid')
+                                @if($transaction->status == 'success')
                                 <span class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-bold uppercase ring-1 ring-green-200">Paid</span>
                                 @elseif($transaction->status == 'pending')
                                 <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg text-xs font-bold uppercase ring-1 ring-orange-200">Pending</span>
@@ -156,9 +156,9 @@
                         let statusClass = 'bg-slate-100 text-slate-600';
                         let statusText = transaction.status.toUpperCase();
 
-                        if (transaction.status === 'paid') {
+                        if (transaction.status === 'success') {
                             statusClass = 'bg-green-100 text-green-700 ring-1 ring-green-200';
-                            statusText = 'PAID';
+                            statusText = 'SUCCESS';
                         } else if (transaction.status === 'pending') {
                             statusClass = 'bg-orange-100 text-orange-700 ring-1 ring-orange-200';
                             statusText = 'PENDING';

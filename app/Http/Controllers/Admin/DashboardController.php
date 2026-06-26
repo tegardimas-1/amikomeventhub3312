@@ -26,9 +26,14 @@ class DashboardController extends Controller
      */
     public function getStatistics()
     {
-        $totalRevenue = Transaction::where('status', 'paid')->sum('total_price');
-        $ticketsSold = Transaction::where('status', 'paid')->count();
-        $activeEvents = Event::count();
+        // Hanya transaksi yang benar-benar sudah dibayar (sesuai status final dari Midtrans)
+        $totalRevenue = Transaction::where('status', 'success')->sum('total_price');
+        $ticketsSold  = Transaction::where('status', 'success')->count();
+
+        // Event aktif = event yang tanggalnya belum lewat (akan datang/sedang berlangsung)
+        $activeEvents = Event::where('date', '>=', now())->count();
+
+        // Pesanan yang masih menunggu konfirmasi pembayaran dari Midtrans
         $pendingOrders = Transaction::where('status', 'pending')->count();
 
         return [

@@ -64,6 +64,12 @@ class TransactionController extends Controller
 
     /**
      * Update transaksi
+     *
+     * Catatan: status pembayaran TIDAK bisa diubah manual dari sini.
+     * Status hanya berubah otomatis lewat konfirmasi Midtrans
+     * (webhook notification atau pengecekan saat redirect ke checkout-success),
+     * supaya data pendapatan & tiket terjual di dashboard selalu selaras
+     * dengan status pembayaran yang sebenarnya.
      */
     public function update(Request $request, Transaction $transaction)
     {
@@ -72,7 +78,6 @@ class TransactionController extends Controller
             'customer_email' => 'required|email|max:255',
             'customer_phone' => 'required|string|max:20',
             'total_price' => 'required|numeric|min:0',
-            'status' => 'required|in:pending,paid,cancelled',
         ]);
 
         $transaction->update($validated);
@@ -97,4 +102,3 @@ class TransactionController extends Controller
                         ->with('success', 'Transaksi berhasil dihapus!');
     }
 }
-

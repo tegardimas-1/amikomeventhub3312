@@ -69,19 +69,19 @@
                 @enderror
             </div>
 
-            <!-- Status -->
+            <!-- Status (Read-only, dikelola otomatis oleh sistem/Midtrans) -->
             <div>
                 <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Status Pembayaran</label>
-                <select name="status" required
-                    class="w-full px-5 py-4 bg-white border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-600 outline-none transition font-medium
-                    @error('status') border-red-500 @enderror">
-                    <option value="pending" {{ old('status', $transaction->status) == 'pending' ? 'selected' : '' }}>Menunggu Pembayaran</option>
-                    <option value="paid" {{ old('status', $transaction->status) == 'paid' ? 'selected' : '' }}>Lunas</option>
-                    <option value="cancelled" {{ old('status', $transaction->status) == 'cancelled' ? 'selected' : '' }}>Dibatalkan</option>
-                </select>
-                @error('status')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                @enderror
+                <div class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl font-medium flex items-center gap-2">
+                    @if($transaction->status == 'success')
+                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold uppercase">✓ Lunas</span>
+                    @elseif($transaction->status == 'pending')
+                        <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-bold uppercase">⏳ Menunggu Pembayaran</span>
+                    @else
+                        <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold uppercase">✗ Dibatalkan</span>
+                    @endif
+                </div>
+                <p class="text-slate-400 text-xs mt-2">Status pembayaran dikelola otomatis oleh sistem berdasarkan konfirmasi dari Midtrans dan tidak dapat diubah manual di sini.</p>
             </div>
 
             <!-- Action Buttons -->

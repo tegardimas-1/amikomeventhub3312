@@ -38,7 +38,7 @@
                                 <p class="text-indigo-100 text-sm font-bold uppercase mb-1">Order ID</p>
                                 <p class="font-mono font-bold text-lg">{{ $transaction->order_id }}</p>
                             </div>
-                            @if($transaction->status == 'paid')
+                            @if($transaction->status == 'success')
                                 <span class="px-4 py-2 bg-green-500 text-white rounded-full text-xs font-bold uppercase">✓ Lunas</span>
                             @elseif($transaction->status == 'pending')
                                 <span class="px-4 py-2 bg-orange-500 text-white rounded-full text-xs font-bold uppercase">⏳ Pending</span>
