@@ -16,7 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->validateCsrfTokens(except: [
+            '/midtrans/callback', // exclude Midtrans webhook from CSRF protection
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

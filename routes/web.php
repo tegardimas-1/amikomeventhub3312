@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\CheckoutController;
@@ -10,6 +12,21 @@ use App\Http\Controllers\Admin\EventController as EventAdminController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+*/
+Route::get('/storage/{filename}', function ($filename) {
+    // Mencari file di dalam folder storage/app/public/
+    $path = storage_path('app/public/' . $filename);
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    $file = file_get_contents($path);
+    $type = mime_content_type($path);
+    return Response::make($file, 200)->header("Content-Type", $type);
+})->where('filename', '.*'); // Supaya bisa membaca sub-folder di dalam storage (misal: events/gambar.jpg)
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +51,9 @@ Route::post('/checkout/{event}', [CheckoutController::class, 'store'])->name('ch
 Route::get('/checkout-payment/{order_id}', [CheckoutController::class, 'payment'])->name('checkout.payment');
 
 Route::get('/checkout-success/{transaction}', [CheckoutController::class, 'success'])->name('checkout.success');
+
+// Midtrans webhook endpoint (receives backend-to-backend notifications)
+Route::post('/midtrans/callback', [\App\Http\Controllers\MidtransWebhookController::class, 'handle']);
 
 /*
 |--------------------------------------------------------------------------
