@@ -61,9 +61,8 @@ Route::post('/midtrans/callback', [\App\Http\Controllers\MidtransWebhookControll
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login', function () {
-    return redirect()->route('admin.login');
-})->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 /*
 |--------------------------------------------------------------------------
@@ -74,8 +73,12 @@ Route::get('/login', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', function () {
-        if (auth()->check()) {
+        if (auth()->check() && auth()->user()->role === 'admin') {
             return redirect()->route('admin.dashboard');
+        }
+
+        if (auth()->check()) {
+            return redirect()->route('home');
         }
 
         return redirect()->route('admin.login');

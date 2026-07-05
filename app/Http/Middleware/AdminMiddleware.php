@@ -14,9 +14,8 @@ class AdminMiddleware
             return $next($request);
         }
 
-        // Jika bukan admin, logout dan redirect ke login
-        auth()->logout();
-        return redirect()->route('admin.login')
+        // Jika bukan admin, redirect ke home tanpa logout
+        return redirect()->route('home')
             ->with('error', 'Akses ditolak. Hanya admin yang diizinkan masuk.');
     }
 }

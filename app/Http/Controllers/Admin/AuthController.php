@@ -11,10 +11,13 @@ class AuthController extends Controller
     // Tampilkan halaman form login
     public function showLogin()
     {
-        // Jika sudah login, langsung ke dashboard
         if (Auth::check()) {
-            return redirect()->route('admin.dashboard');
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+            return redirect()->route('home');
         }
+
         return view('auth.login');
     }
 
@@ -28,7 +31,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard');
+
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+
+            return redirect()->route('home');
         }
 
         return back()->withErrors([
