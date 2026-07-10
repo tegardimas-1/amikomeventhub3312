@@ -12,5 +12,7 @@ jika admin langsung mengarah ke dashboard,coba log out dahulu setelah itu akses 
 
 # id
 admin@amikom.ac.id
+user@amikom.ac.id
+
 # pw
 password: password123
